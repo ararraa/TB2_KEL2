@@ -2,22 +2,101 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url(); ?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-code"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Logistik Obat</div>
+        <div class="sidebar-brand-text mx-3">Logistik Apotek</div>
     </a>
- 
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Nav Item - Logout -->
+    <!-- QUERY MENU -->
+    <?php
+    $role_id = $this->session->userdata('role_id');
+    $queryMenu = "SELECT user_menu.id, menu
+                    FROM user_menu JOIN user_access_menu
+                      ON user_menu.id = user_access_menu.menu_id
+                   WHERE user_access_menu.role_id = $role_id
+                ORDER BY user_access_menu.menu_id ASC
+                ";
+    $menu = $this->db->query($queryMenu)->result_array();
+    ?>
+
+    <!-- LOOPING MENU -->
+    <?php foreach ($menu as $m) : ?>
+        <div class="sidebar-heading">
+            <?= $m['menu']; ?>
+        </div>
+
+        <!-- SIAPKAN SUB-MENU SESUAI MENU -->
+        <?php
+        $menuId = $m['id'];
+        $querySubMenu = "SELECT *
+                           FROM user_sub_menu JOIN user_menu
+                             ON user_sub_menu.menu_id = user_menu.id
+                          WHERE user_sub_menu.menu_id = $menuId
+                            AND user_sub_menu.is_active = 1
+                        ";
+        $subMenu = $this->db->query($querySubMenu)->result_array();
+        ?>
+
+        <?php foreach ($subMenu as $sm) : ?>
+            <?php if ($title == $sm['title']) : ?>
+                <li class="nav-item active">
+            <?php else : ?>
+                <li class="nav-item">
+            <?php endif; ?>
+                <a class="nav-link" href="<?= base_url($sm['url']); ?>">
+                    <i class="<?= $sm['icon']; ?>"></i>
+                    <span><?= $sm['title']; ?></span></a>
+            </li>
+        <?php endforeach; ?>
+
+        <hr class="sidebar-divider mt-3">
+
+    <?php endforeach; ?>
+
+    <!-- Inventory Management -->
+    <div class="sidebar-heading">
+        Inventory Management
+    </div>
+
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('auth/logout') ?>">
+        <a class="nav-link" href="<?= base_url('request'); ?>">
+            <i class="fas fa-file-alt"></i>
+            <span>Form Permintaan Barang</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('request'); ?>">
+            <i class="fas fa-truck-loading"></i>
+            <span>Penerimaan Barang</span></a>
+    </li>
+
+    <!-- Produk Barang (Obat) -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('produk'); ?>">
+            <i class="fas fa-pills"></i>
+            <span>Produk Barang (Obat)</span></a>
+    </li>
+
+    <!-- Laporan Kartu Stock -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('reports/stock-report'); ?>">
+            <i class="fas fa-chart-line"></i>
+            <span>Laporan Kartu Stock</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider mt-3">
+
+    <!-- Logout -->
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('auth/logout'); ?>">
             <i class="fas fa-fw fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </a>
+            <span>Logout</span></a>
     </li>
 
     <!-- Divider -->
