@@ -64,15 +64,17 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('request'); ?>">
+        <a class="nav-link" href="<?= base_url('inventory/request-form'); ?>">
             <i class="fas fa-file-alt"></i>
             <span>Form Permintaan Barang</span></a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('request'); ?>">
+       <!-- Menu Penerimaan Barang -->
+       <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('inventory/receive'); ?>">
             <i class="fas fa-truck-loading"></i>
-            <span>Penerimaan Barang</span></a>
+            <span>Penerimaan Barang</span>
+        </a>
     </li>
 
     <!-- Produk Barang (Obat) -->

@@ -61,4 +61,11 @@ $route['product/edit/(:num)'] = 'product/edit/$1';
 $route['product/update/(:num)'] = 'product/update/$1';
 $route['product/delete/(:num)'] = 'product/delete/$1';
 
+$route['inventory/request-form'] = 'admin/requestForm';
+$route['inventory/receive'] = 'admin/receive';
+$route['reports/stock-report'] = 'admin/stockReport';
+$route['admin/detail/(:num)'] = 'admin/detail/$1';
+$route['inventory/receive'] = 'admin/receive';
+$route['reports/stock-report'] = 'admin/stockReport';
+
 

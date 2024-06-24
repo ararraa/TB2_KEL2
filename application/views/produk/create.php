@@ -14,6 +14,10 @@
                     <label for="nama_barang">Nama Barang</label>
                     <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
                 </div>
+                <div class="form-group">
+                    <label for="qty">Qty</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                </div>
                 <button type="submit" class="btn btn-primary">Kirim</button>
             </form>
         </div>

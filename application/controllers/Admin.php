@@ -1,4 +1,3 @@
-
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -43,25 +42,19 @@ class Admin extends CI_Controller
 }
 
 
-    public function permintaan()
+    public function receive()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Penerimaan Barang';
 
-        // Restrict access based on user role
-        if ($data['user']['role_id'] != 1) {
-            // Redirect to a "no access" page or show an error message
-            redirect('no_access');
-        }
-
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('request/form_permintaan', $data);
+        $this->load->view('inventory/receive', $data);
         $this->load->view('templates/footer', $data);
     }
 
-    public function produk()
+    public function products()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Produk Barang (Obat)';
@@ -69,7 +62,7 @@ class Admin extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('produk/index', $data);
+        $this->load->view('inventory/products', $data);
         $this->load->view('templates/footer', $data);
     }
 
@@ -86,4 +79,3 @@ class Admin extends CI_Controller
     }
 }
 ?>
-

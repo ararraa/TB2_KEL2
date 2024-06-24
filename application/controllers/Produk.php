@@ -24,7 +24,6 @@ class Produk extends CI_Controller {
 
     public function create() {
         // Ambil data pengguna dari session atau database
-
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Tambah Produk';
         $this->load->view('templates/header', $data);
@@ -32,17 +31,18 @@ class Produk extends CI_Controller {
         $this->load->view('templates/topbar', $data);
         $this->load->view('produk/create');
         $this->load->view('templates/footer');
-       
     }
-
+    
     public function store() {
         $data = array(
             'no_item' => $this->input->post('no_item'),
-            'nama_barang' => $this->input->post('nama_barang')
+            'nama_barang' => $this->input->post('nama_barang'),
+            'quantity' => $this->input->post('qty')  // Menambah quantity dari input post
         );
         $this->Produk_model->insert_produk($data);
         redirect('produk/index');
     }
+    
 
     public function edit($no_item) {
         // Ambil data pengguna dari session atau database
