@@ -86,6 +86,12 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
+    public function insert_receive($data) {
+        $this->db->insert('receive', $data);
+        return $this->db->insert_id(); // Return the ID of the inserted row
+    }
+    
+
     public function products()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
