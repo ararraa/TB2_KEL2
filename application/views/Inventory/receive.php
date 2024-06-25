@@ -12,7 +12,7 @@
             <?= $this->session->flashdata('message'); ?>
             
             <!-- Form Penerimaan -->
-            <form action="<?= base_url('inventory/stock_report'); ?>" method="post">
+            <form id="stockReportForm" action="<?= base_url('inventory/stock_report'); ?>" method="post">
                 <div class="form-group">
                     <label for="no_invoice">No Invoice</label>
                     <input type="text" class="form-control" id="no_invoice" name="no_invoice" value="<?= set_value('no_invoice'); ?>">
@@ -112,5 +112,12 @@
             row.querySelector('.qty').addEventListener('input', calculateTotal);
             row.querySelector('.harga').addEventListener('input', calculateTotal);
         }
+
+        // Menambahkan event listener pada form submit
+        document.getElementById('stockReportForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Mencegah form submit secara default
+            alert("Barang Diterima");
+            this.submit(); // Melanjutkan submit form
+        });
     });
 </script>

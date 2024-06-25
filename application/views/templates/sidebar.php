@@ -85,11 +85,13 @@
     </li>
 
     <!-- Laporan Kartu Stock -->
+
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('reports/stock-report'); ?>">
-            <i class="fas fa-chart-line"></i>
-            <span>Laporan Kartu Stock</span></a>
-    </li>
+    <a class="nav-link" href="<?= base_url('inventory/stockreport'); ?>">
+        <i class="fas fa-fw fa-chart-area"></i>
+        <span>Laporan Kartu Stock</span></a>
+</li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider mt-3">
