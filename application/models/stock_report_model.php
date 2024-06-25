@@ -27,5 +27,12 @@ class Stock_report_model extends CI_Model {
         $this->db->insert('stock_report', $data);
     }
 
+    public function get_stock_reports_by_item($item)
+{
+    $this->db->like('nama_barang', $item);
+    $query = $this->db->get('stock_report');
+    return $query->result_array();
+}
+
 }
 ?>

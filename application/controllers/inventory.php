@@ -91,21 +91,22 @@ class Inventory extends CI_Controller
     {
         $data['title'] = 'Form Laporan Persediaan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['products'] = $this->Produk_model->get_all_produk(); 
-
+        $data['products'] = $this->Produk_model->get_all_produk();
+    
         $filter_item = $this->input->get('filter_item');
         if ($filter_item) {
             $data['stock_reports'] = $this->Stock_report_model->get_stock_reports_by_item($filter_item);
         } else {
             $data['stock_reports'] = $this->Stock_report_model->get_all_stock_reports();
         }
-
+    
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('inventory/stock_report', $data);
         $this->load->view('templates/footer');
     }
+    
 
     public function process_stock_report()
     {
