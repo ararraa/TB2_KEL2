@@ -7,8 +7,8 @@ class Inventory extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Stock_report_model');
-        $this->load->model('Receive_model'); // Load model Receive_model untuk menyimpan penerimaan barang
-        $this->load->model('Produk_model'); // Load model produk untuk mendapatkan daftar produk
+        $this->load->model('Receive_model'); 
+        $this->load->model('Produk_model'); 
         $this->load->library('form_validation');
     }
 
@@ -16,9 +16,8 @@ class Inventory extends CI_Controller
     {
         $data['title'] = 'Form Penerimaan Barang';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['products'] = $this->Produk_model->get_all_produk(); // Dapatkan daftar semua produk
+        $data['products'] = $this->Produk_model->get_all_produk();
 
-        // Validasi form
         $this->form_validation->set_rules('no_invoice', 'No Invoice', 'required');
         $this->form_validation->set_rules('no_request_product', 'No Request Product', 'required');
         $this->form_validation->set_rules('detail_pengirim', 'Detail Pengirim', 'required');
@@ -31,7 +30,6 @@ class Inventory extends CI_Controller
             $this->load->view('inventory/receive', $data);
             $this->load->view('templates/footer');
         } else {
-            // Ambil data dari form
             $receive_data = array(
                 'no_invoice' => $this->input->post('no_invoice'),
                 'no_request_product' => $this->input->post('no_request_product'),
@@ -39,13 +37,11 @@ class Inventory extends CI_Controller
                 'tanggal' => $this->input->post('tanggal'),
             );
 
-            // Simpan data penerimaan barang
             $receive_id = $this->Receive_model->insertReceive($receive_data);
 
-            // Ambil data detail penerimaan barang (looping dari form tabel)
             $receive_details = array();
             $id_invoice_obat_details = $this->input->post('id_invoice_obat_detail');
-            $nama_items = $this->input->post('nama_item');
+            $nama_barangs = $this->input->post('nama_barang'); // Ubah name menjadi nama_barang
             $qtys = $this->input->post('qty');
             $hargas = $this->input->post('harga');
             $totals = $this->input->post('total');
@@ -54,21 +50,32 @@ class Inventory extends CI_Controller
                 $receive_details[] = array(
                     'receive_id' => $receive_id,
                     'id_invoice_obat_detail' => $id_invoice_obat_details[$i],
-                    'nama_item' => $nama_items[$i],
+                    'nama_barang' => $nama_barangs[$i],
                     'qty' => $qtys[$i],
                     'harga' => $hargas[$i],
                     'total' => $totals[$i]
                 );
             }
 
-            // Simpan detail penerimaan barang
             foreach ($receive_details as $detail) {
                 $this->Receive_model->insertReceiveDetail($detail);
             }
 
-            // Redirect atau set flashdata success message
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Penerimaan barang berhasil disimpan!</div>');
-            redirect('inventory/receive');
+            foreach ($receive_details as $detail) {
+                $stock_report_data = array(
+                    'nama_barang' => $detail['nama_barang'],
+                    'no_invoice' => $detail['no_invoice'],
+                    'no_penjualan' => $detail['no_penjualan'],
+                    'detail_pengirim_penerima' => $detail['detail_pengirim'],
+                    'barang_masuk' => $detail['qty'],
+                    'tanggal' => $detail['tanggal']
+                );
+
+                $this->Stock_report_model->save_stock_report($stock_report_data);
+            }
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Penerimaan barang berhasil disimpan dan masuk ke laporan kartu stock!</div>');
+            redirect('inventory/stock_report');
         }
     }
 
@@ -76,7 +83,7 @@ class Inventory extends CI_Controller
     {
         $data['title'] = 'Form Laporan Persediaan';
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-        $data['products'] = $this->Produk_model->get_all_produk(); // Dapatkan daftar semua produk
+        $data['products'] = $this->Produk_model->get_all_produk(); 
 
         $filter_item = $this->input->get('filter_item');
         if ($filter_item) {
@@ -85,7 +92,6 @@ class Inventory extends CI_Controller
             $data['stock_reports'] = $this->Stock_report_model->get_all_stock_reports();
         }
 
-        // Load views
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -93,4 +99,3 @@ class Inventory extends CI_Controller
         $this->load->view('templates/footer');
     }
 }
-?>
