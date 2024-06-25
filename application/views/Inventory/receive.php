@@ -10,9 +10,9 @@
                 </div>
             <?php endif; ?>
             <?= $this->session->flashdata('message'); ?>
-            
+
             <!-- Form Penerimaan -->
-            <form id="stockReportForm" action="<?= base_url('inventory/stock_report'); ?>" method="post">
+            <form id="receiveForm" action="<?= base_url('inventory/receive'); ?>" method="post">
                 <div class="form-group">
                     <label for="no_invoice">No Invoice</label>
                     <input type="text" class="form-control" id="no_invoice" name="no_invoice" value="<?= set_value('no_invoice'); ?>">
@@ -36,7 +36,11 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">ID Invoice Obat Detail</th>
+<<<<<<< HEAD
                             <th scope="col">Nama Barang</th>
+=======
+                            <th scope="col">Nama Barang</th> <!-- Ubah label disini -->
+>>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
                             <th scope="col">Qty</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Total</th>
@@ -47,7 +51,11 @@
                         <tr>
                             <th scope="row">1</th>
                             <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
+<<<<<<< HEAD
                             <td><input type="text" name="nama_barang[]" class="form-control"></td>
+=======
+                            <td><input type="text" name="nama_barang[]" class="form-control"></td> <!-- Ubah name disini -->
+>>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
                             <td><input type="number" name="qty[]" class="form-control qty"></td>
                             <td><input type="number" name="harga[]" class="form-control harga"></td>
                             <td><input type="number" name="total[]" class="form-control total" readonly></td>
@@ -72,7 +80,11 @@
             row.innerHTML = `
                 <th scope="row">${rowCount + 1}</th>
                 <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
+<<<<<<< HEAD
                 <td><input type="text" name="nama_barang[]" class="form-control"></td>
+=======
+                <td><input type="text" name="nama_barang[]" class="form-control"></td> <!-- Ubah name disini -->
+>>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
                 <td><input type="number" name="qty[]" class="form-control qty"></td>
                 <td><input type="number" name="harga[]" class="form-control harga"></td>
                 <td><input type="number" name="total[]" class="form-control total" readonly></td>
@@ -114,9 +126,9 @@
         }
 
         // Menambahkan event listener pada form submit
-        document.getElementById('stockReportForm').addEventListener('submit', function (event) {
+        document.getElementById('receiveForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Mencegah form submit secara default
-            alert("Barang Diterima");
+            alert("Barang Diterima"); // Alert ini bisa dihapus atau dimodifikasi sesuai kebutuhan
             this.submit(); // Melanjutkan submit form
         });
     });

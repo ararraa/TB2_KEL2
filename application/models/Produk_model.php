@@ -49,4 +49,8 @@ class Produk_model extends CI_Model {
         $this->db->where('nama_barang', $nama_barang);
         $this->db->update('produk');
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
