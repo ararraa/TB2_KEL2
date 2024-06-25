@@ -7,12 +7,19 @@ class Stock_report_model extends CI_Model {
         parent::__construct();
     }
 
+    public function insertStockReport($data) {
+        $this->db->insert('stock_report', $data);
+    }
+
+
     public function get_all_stock_reports() {
         return $this->db->get('stock_report')->result_array();
     }
 
-    public function get_stock_reports_by_item($item) {
-        $this->db->where('no_item', $item);
+    public function get_stock_reports($nama_barang = null) {
+        if ($nama_barang) {
+            $this->db->where('nama_barang', $nama_barang);
+        }
         return $this->db->get('stock_report')->result_array();
     }
 

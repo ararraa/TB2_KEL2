@@ -87,7 +87,7 @@
     <!-- Laporan Kartu Stock -->
 
     <li class="nav-item">
-    <a class="nav-link" href="<?= base_url('inventory/stockreport'); ?>">
+    <a class="nav-link" href="<?= base_url('inventory/stock_report'); ?>">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Laporan Kartu Stock</span></a>
 </li>

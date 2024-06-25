@@ -32,11 +32,7 @@ class Produk extends CI_Controller {
     public function store() {
         $data = array(
             'nama_barang' => $this->input->post('nama_barang'),
-<<<<<<< HEAD
-            'qty' => $this->input->post('qty')
-=======
             'qty' => $this->input->post('qty')  // Menambah quantity dari input post
->>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
         );
     
         // Validasi jika quantity kosong
@@ -49,16 +45,10 @@ class Produk extends CI_Controller {
         }
 
         $this->Produk_model->insert_produk($data);
-<<<<<<< HEAD
-        redirect('produk/index');  // Redirect setelah berhasil insert
-=======
-
+        
         // Redirect ke halaman index produk setelah berhasil menyimpan
         redirect('produk/index');
->>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
     }
-    
-    
 
     public function edit($no_item) {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -80,8 +70,5 @@ class Produk extends CI_Controller {
         $this->Produk_model->update_produk($no_item, $data);
         redirect('produk/index');
     }
-    
-
-
 }
 ?>

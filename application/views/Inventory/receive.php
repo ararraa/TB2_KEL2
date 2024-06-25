@@ -36,11 +36,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">ID Invoice Obat Detail</th>
-<<<<<<< HEAD
                             <th scope="col">Nama Barang</th>
-=======
-                            <th scope="col">Nama Barang</th> <!-- Ubah label disini -->
->>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
                             <th scope="col">Qty</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Total</th>
@@ -51,11 +47,7 @@
                         <tr>
                             <th scope="row">1</th>
                             <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-<<<<<<< HEAD
                             <td><input type="text" name="nama_barang[]" class="form-control"></td>
-=======
-                            <td><input type="text" name="nama_barang[]" class="form-control"></td> <!-- Ubah name disini -->
->>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
                             <td><input type="number" name="qty[]" class="form-control qty"></td>
                             <td><input type="number" name="harga[]" class="form-control harga"></td>
                             <td><input type="number" name="total[]" class="form-control total" readonly></td>
@@ -71,65 +63,50 @@
 </div>
 <!-- /.container-fluid -->
 
+<!-- Tambahkan jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let receiveTable = document.getElementById('receiveTable').getElementsByTagName('tbody')[0];
-        document.getElementById('addRow').addEventListener('click', function () {
-            let rowCount = receiveTable.rows.length;
-            let row = receiveTable.insertRow(rowCount);
-            row.innerHTML = `
-                <th scope="row">${rowCount + 1}</th>
-                <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-<<<<<<< HEAD
-                <td><input type="text" name="nama_barang[]" class="form-control"></td>
-=======
-                <td><input type="text" name="nama_barang[]" class="form-control"></td> <!-- Ubah name disini -->
->>>>>>> ecd8e536eb55b510d0b133fe2602af2a08b1f25f
-                <td><input type="number" name="qty[]" class="form-control qty"></td>
-                <td><input type="number" name="harga[]" class="form-control harga"></td>
-                <td><input type="number" name="total[]" class="form-control total" readonly></td>
-                <td><button type="button" class="btn btn-danger removeRow">-</button></td>
-            `;
-
-            row.querySelector('.removeRow').addEventListener('click', function () {
-                this.closest('tr').remove();
-                updateRowNumbers();
-            });
-
-            row.querySelector('.qty').addEventListener('input', calculateTotal);
-            row.querySelector('.harga').addEventListener('input', calculateTotal);
-        });
-
-        function updateRowNumbers() {
-            let rows = receiveTable.getElementsByTagName('tr');
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].getElementsByTagName('th')[0].innerText = i + 1;
-            }
-        }
-
+    $(document).ready(function() {
+        // Fungsi untuk menghitung total
         function calculateTotal() {
-            let row = this.closest('tr');
-            let qty = row.querySelector('.qty').value;
-            let harga = row.querySelector('.harga').value;
-            row.querySelector('.total').value = qty * harga;
-        }
-
-        let existingRows = receiveTable.getElementsByTagName('tr');
-        for (let row of existingRows) {
-            row.querySelector('.removeRow').addEventListener('click', function () {
-                this.closest('tr').remove();
-                updateRowNumbers();
+            $('#receiveTable tbody tr').each(function() {
+                var qty = $(this).find('.qty').val();
+                var harga = $(this).find('.harga').val();
+                var total = qty * harga;
+                $(this).find('.total').val(total);
             });
-
-            row.querySelector('.qty').addEventListener('input', calculateTotal);
-            row.querySelector('.harga').addEventListener('input', calculateTotal);
         }
 
-        // Menambahkan event listener pada form submit
-        document.getElementById('receiveForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Mencegah form submit secara default
-            alert("Barang Diterima"); // Alert ini bisa dihapus atau dimodifikasi sesuai kebutuhan
-            this.submit(); // Melanjutkan submit form
+        // Hitung total ketika qty atau harga berubah
+        $('#receiveTable').on('input', '.qty, .harga', function() {
+            calculateTotal();
         });
+
+        // Tambah baris baru
+        $('#addRow').click(function() {
+            var newRow = `<tr>
+                            <th scope="row">` + ($('#receiveTable tbody tr').length + 1) + `</th>
+                            <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
+                            <td><input type="text" name="nama_barang[]" class="form-control"></td>
+                            <td><input type="number" name="qty[]" class="form-control qty"></td>
+                            <td><input type="number" name="harga[]" class="form-control harga"></td>
+                            <td><input type="number" name="total[]" class="form-control total" readonly></td>
+                            <td><button type="button" class="btn btn-danger removeRow">-</button></td>
+                        </tr>`;
+            $('#receiveTable tbody').append(newRow);
+        });
+
+        // Hapus baris
+        $('#receiveTable').on('click', '.removeRow', function() {
+            $(this).closest('tr').remove();
+            // Perbarui nomor urut setelah menghapus baris
+            $('#receiveTable tbody tr').each(function(index) {
+                $(this).find('th').text(index + 1);
+            });
+            calculateTotal();
+        });
+
+        // Hitung total saat halaman dimuat
+        calculateTotal();
     });
 </script>
