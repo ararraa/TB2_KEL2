@@ -44,7 +44,6 @@
             </table>
             <div class="mt-4">
                 <a href="<?= base_url('inventory/request-form'); ?>" class="btn btn-secondary">Back</a>
-                <a href="<?= base_url('inventory/products'); ?>" class="btn btn-primary">Cek</a>
             </div>
         </div>
     </div>
