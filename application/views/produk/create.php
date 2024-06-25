@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group">
                     <label for="qty">Qty</label>
-                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                    <input type="number" class="form-control" id="qty" name="qty" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Kirim</button>
             </form>

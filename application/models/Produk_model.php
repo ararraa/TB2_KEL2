@@ -1,18 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Produk_model extends CI_Model {
 
-    // Misalnya dalam Produk_model.php
-public function get_all_produk() {
-    // Ambil semua data produk beserta quantity
-    $this->db->select('*');
-    $this->db->from('produk');
-    $query = $this->db->get();
-    return $query->result();  // Mengembalikan hasil query sebagai array objek
-}
-
+    public function get_all_produk() {
+        $this->db->select('*');
+        $this->db->from('produk');
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function get_produk_by_no_item($no_item) {
         $query = $this->db->get_where('produk', array('no_item' => $no_item));
@@ -37,11 +33,7 @@ public function get_all_produk() {
         return $this->db->get_where('produk', ['id' => $id])->row();
     }
 
-    // application/models/Produk_model.php
-
-
     public function get_all_produk_with_quantity() {
-        // Mengambil semua produk dari tabel produk beserta quantity jika tersedia
         $query = $this->db->query("SELECT p.no_item, p.nama_barang, IFNULL(qty.quantity, 0) AS quantity
                                   FROM produk p
                                   LEFT JOIN (
@@ -51,12 +43,10 @@ public function get_all_produk() {
                                   ) AS qty ON p.no_item = qty.no_item");
         return $query->result();
     }
+
     public function update_qty($nama_barang, $qty) {
         $this->db->set('qty', 'qty + ' . $qty, FALSE);
         $this->db->where('nama_barang', $nama_barang);
         $this->db->update('produk');
     }
-    // Metode lain di sini seperti insert, update, delete, dll.
 }
-
-

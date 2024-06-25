@@ -11,7 +11,11 @@
                 <input type="hidden" name="no_item" value="<?= $produk->no_item ?>">
                 <div class="form-group">
                     <label for="nama_barang">Nama Barang</label>
-                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $produk->nama_barang ?>" required>
+                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $produk->nama_barang ?>" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="qty">Qty</label>
+                    <input type="number" class="form-control" id="qty" name="qty" value="<?= $produk->qty ?>" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </form>

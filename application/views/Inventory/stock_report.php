@@ -2,6 +2,24 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <form method="GET" action="<?= base_url('inventory/stock_report'); ?>">
+                <div class="form-group">
+                    <label for="filter_item">Filter by Item</label>
+                    <select name="filter_item" id="filter_item" class="form-control">
+                        <option value="">Select Item</option>
+                        <?php foreach ($products as $product) : ?>
+                            <option value="<?= $product->no_item; ?>" <?= ($this->input->get('filter_item') == $product->no_item) ? 'selected' : ''; ?>>
+                                <?= $product->nama_barang; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <table class="table table-hover">

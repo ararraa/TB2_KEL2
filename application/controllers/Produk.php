@@ -37,9 +37,21 @@ class Produk extends CI_Controller {
         $data = array(
             'no_item' => $this->input->post('no_item'),
             'nama_barang' => $this->input->post('nama_barang'),
-            'quantity' => $this->input->post('qty')  // Menambah quantity dari input post
+            'qty' => $this->input->post('qty')  // Menambah quantity dari input post
         );
+    
+        // Validasi jika quantity kosong
+        $quantity = $this->input->post('qty');
+        if (!$quantity) {
+            // Jika quantity NULL, redirect kembali ke halaman create dengan pesan error
+            $this->session->set_flashdata('error', 'Quantity harus diisi');
+            redirect('produk/create');
+            return; // Jangan lupa return setelah redirect
+        }
+
         $this->Produk_model->insert_produk($data);
+
+        // Redirect ke halaman index produk setelah berhasil menyimpan
         redirect('produk/index');
     }
     
