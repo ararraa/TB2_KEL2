@@ -9,6 +9,7 @@ class User extends CI_Controller
         $this->load->model('Request_model');
         $this->load->helper('url'); // For base_url()
     }
+
     public function index()
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -26,13 +27,13 @@ class User extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Form Permintaan Barang';
 
-        // Fetch only continued requests
-        $data['requests'] = $this->Request_model->get_all_requests_user();
+        // Memuat kembali data permintaan
+        $data['requests'] = $this->Request_model->get_all_requests();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('inventory/request_form', $data);
+        $this->load->view('inventory/request_form', $data); // Ganti view dengan 'inventory/request_form'
         $this->load->view('templates/footer', $data);
     }
 

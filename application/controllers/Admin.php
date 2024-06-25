@@ -40,20 +40,15 @@ class Admin extends CI_Controller
 
     public function continueRequest($id_request)
 {
-    // Check if the request exists
-    $request = $this->Request_model->get_request($id_request);
-    if ($request) {
-        // Perform action to continue the request (if any)
+    // Misalnya mengubah status permintaan menjadi 'continued'
+    $this->Request_model->update_request_status($id_request, 'continued');
 
-        // Set success flash message
-        $this->session->set_flashdata('success_message', 'Form permintaan berhasil diteruskan.');
+    $this->session->set_flashdata('message', 'Form permintaan berhasil diteruskan.');
 
-        // Redirect back to requestForm or wherever appropriate
-        redirect('admin/requestForm');
-    } else {
-        show_404();
-    }
+    redirect('admin/requestForm'); // Redirect kembali ke halaman admin
 }
+
+
 
 
     public function detail($id_request)
