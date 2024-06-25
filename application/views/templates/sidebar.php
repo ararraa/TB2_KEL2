@@ -15,11 +15,11 @@
     <!-- QUERY MENU -->
     <?php
     $role_id = $this->session->userdata('role_id');
-    $queryMenu = "SELECT user_menu.id, menu
-                    FROM user_menu JOIN user_access_menu
-                      ON user_menu.id = user_access_menu.menu_id
-                   WHERE user_access_menu.role_id = $role_id
-                ORDER BY user_access_menu.menu_id ASC
+    $queryMenu = "SELECT `user_menu`.`id`, `menu`
+                    FROM `user_menu` JOIN `user_access_menu`
+                      ON `user_menu`.`id` = `user_access_menu`.`menu_id`
+                   WHERE `user_access_menu`.`role_id` = $role_id
+                ORDER BY `user_access_menu`.`menu_id` ASC
                 ";
     $menu = $this->db->query($queryMenu)->result_array();
     ?>
@@ -34,10 +34,10 @@
         <?php
         $menuId = $m['id'];
         $querySubMenu = "SELECT *
-                           FROM user_sub_menu JOIN user_menu
-                             ON user_sub_menu.menu_id = user_menu.id
-                          WHERE user_sub_menu.menu_id = $menuId
-                            AND user_sub_menu.is_active = 1
+                           FROM `user_sub_menu` JOIN `user_menu`
+                             ON `user_sub_menu`.`menu_id` = `user_menu`.`id`
+                          WHERE `user_sub_menu`.`menu_id` = $menuId
+                            AND `user_sub_menu`.`is_active` = 1
                         ";
         $subMenu = $this->db->query($querySubMenu)->result_array();
         ?>
@@ -63,11 +63,13 @@
         Inventory Management
     </div>
 
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('inventory/request-form'); ?>">
-            <i class="fas fa-file-alt"></i>
-            <span>Form Permintaan Barang</span></a>
-    </li>
+    <?php if ($this->session->userdata('role_id') == 1 || $this->session->userdata('role_id') == 2): // Assuming role_id 2 is for regular users ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url($this->session->userdata('role_id') == 1 ? 'admin/requestForm' : 'user/requestForm'); ?>">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Form Permintaan Barang</span></a>
+            </li>
+        <?php endif; ?>
 
        <!-- Menu Penerimaan Barang -->
        <li class="nav-item">

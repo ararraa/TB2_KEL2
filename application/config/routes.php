@@ -67,6 +67,7 @@ $route['reports/stock-report'] = 'admin/stockReport';
 $route['admin/detail/(:num)'] = 'admin/detail/$1';
 $route['inventory/receive'] = 'admin/receive';
 $route['inventory/stock_report'] = 'inventory/stock_report';
-
+$route['user/request-form'] = 'user/requestForm';
+$route['admin/continueRequest/(:any)'] = 'admin/continueRequest/$1';
 
 
