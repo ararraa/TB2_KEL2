@@ -36,7 +36,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">ID Invoice Obat Detail</th>
-                            <th scope="col">Nama Item</th>
+                            <th scope="col">Nama Barang</th>
                             <th scope="col">Qty</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Total</th>
@@ -47,7 +47,7 @@
                         <tr>
                             <th scope="row">1</th>
                             <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-                            <td><input type="text" name="nama_item[]" class="form-control"></td>
+                            <td><input type="text" name="nama_barang[]" class="form-control"></td>
                             <td><input type="number" name="qty[]" class="form-control qty"></td>
                             <td><input type="number" name="harga[]" class="form-control harga"></td>
                             <td><input type="number" name="total[]" class="form-control total" readonly></td>
@@ -72,7 +72,7 @@
             row.innerHTML = `
                 <th scope="row">${rowCount + 1}</th>
                 <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-                <td><input type="text" name="nama_item[]" class="form-control"></td>
+                <td><input type="text" name="nama_barang[]" class="form-control"></td>
                 <td><input type="number" name="qty[]" class="form-control qty"></td>
                 <td><input type="number" name="harga[]" class="form-control harga"></td>
                 <td><input type="number" name="total[]" class="form-control total" readonly></td>

@@ -9,9 +9,6 @@ class Produk extends CI_Controller {
     }
 
     public function index() {
-        // Ambil data pengguna dari session atau database
-
-
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Daftar Produk';
         $data['produk'] = $this->Produk_model->get_all_produk();
@@ -23,7 +20,6 @@ class Produk extends CI_Controller {
     }
 
     public function create() {
-        // Ambil data pengguna dari session atau database
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Tambah Produk';
         $this->load->view('templates/header', $data);
@@ -35,18 +31,16 @@ class Produk extends CI_Controller {
     
     public function store() {
         $data = array(
-            'no_item' => $this->input->post('no_item'),
             'nama_barang' => $this->input->post('nama_barang'),
-            'quantity' => $this->input->post('qty')  // Menambah quantity dari input post
+            'qty' => $this->input->post('qty')
         );
         $this->Produk_model->insert_produk($data);
-        redirect('produk/index');
+        redirect('produk/index');  // Redirect setelah berhasil insert
     }
+    
     
 
     public function edit($no_item) {
-        // Ambil data pengguna dari session atau database
-
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Edit Produk';
         $data['produk'] = $this->Produk_model->get_produk_by_no_item($no_item);
@@ -58,34 +52,16 @@ class Produk extends CI_Controller {
     }
 
     public function update() {
-        $no_item = $this->input->post('no_item');
+        $no_item = $this->input->post('no_item'); // Ambil nomor item dari form
         $data = array(
-            'nama_barang' => $this->input->post('nama_barang')
+            'nama_barang' => $this->input->post('nama_barang'),
+            'qty' => $this->input->post('qty')
         );
         $this->Produk_model->update_produk($no_item, $data);
         redirect('produk/index');
     }
-
-    public function delete($no_item)
-    {
-        // Load model
-        $this->load->model('Produk_model');
-        // Panggil method untuk menghapus produk berdasarkan no_item
-        $this->Produk_model->delete_produk($no_item);
-        // Redirect kembali ke halaman daftar produk setelah penghapusan
-        redirect('produk/index');
-    }
-
-    public function detail($id)
-    {
     
-        $data['title'] = 'Detail Produk';
-        $data['produk'] = $this->Produk_model->get_produk_by_id($id);
-    
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('produk/detail', $data);
-        $this->load->view('templates/footer', $data);
-    }
+
+
 }
+?>

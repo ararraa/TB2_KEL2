@@ -20,7 +20,19 @@ class Inventory_model extends CI_Model {
 
         // Simpan data ke dalam tabel 'stock_reports'
         $this->db->insert('stock_reports', $data_to_insert);
+        foreach ($data['details'] as $detail) {
+            $this->update_product_quantity($detail['no_item'], $detail['qty']);
+        }
+    }
+    
+    private function update_product_quantity($no_item, $qty) {
+        // Update quantity produk di tabel 'produk'
+        $this->db->set('qty', 'qty + ' . $qty, FALSE);
+        $this->db->where('no_item', $no_item);
+        $this->db->update('produk');
+    }
     }
 
+
+
     // Metode lain untuk mengambil atau memanipulasi data lain terkait stok
-}
