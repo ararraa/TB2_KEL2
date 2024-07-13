@@ -55,17 +55,25 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['product'] = 'product/index';
 $route['product/create'] = 'product/create';
-$route['produk/detail/(:any)'] = 'produk/detail/$1';
 $route['product/store'] = 'product/store';
 $route['product/edit/(:num)'] = 'product/edit/$1';
 $route['product/update/(:num)'] = 'product/update/$1';
 $route['product/delete/(:num)'] = 'product/delete/$1';
-
 $route['inventory/request-form'] = 'admin/requestForm';
-$route['inventory/receive'] = 'admin/receive';
-$route['reports/stock-report'] = 'admin/stockReport';
+$route['inventory/receive'] = 'inventory/receive'; // Ubah dari 'admin/receive' ke 'inventory/receive'
+$route['inventory/stock_report'] = 'inventory/stockReport'; // Ubah dari 'admin/stockReport' ke 'inventory/stockReport'
 $route['admin/detail/(:num)'] = 'admin/detail/$1';
-$route['inventory/receive'] = 'admin/receive';
-$route['reports/stock-report'] = 'admin/stockReport';
+$route['admin/continue/(:num)'] = 'admin/continue/$1';
+$route['inventory_out'] = 'inventory_out/index';
+$route['inventory_out/create'] = 'inventory_out/create';
+$route['inventory_out/store'] = 'inventory_out/store';
+$route['inventory_out/edit/(:num)'] = 'inventory_out/edit/$1';
+$route['inventory_out/update/(:num)'] = 'inventory_out/update/$1';
+$route['inventory_out/delete/(:num)'] = 'inventory_out/delete/$1';
+
+
+
+// Hapus route yang duplikat, jika ada
+
 
 

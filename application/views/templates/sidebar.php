@@ -43,7 +43,7 @@
         ?>
 
         <?php foreach ($subMenu as $sm) : ?>
-            <?php if ($title == $sm['title']) : ?>
+            <?php if (isset($title) && $title == $sm['title']) : ?>
                 <li class="nav-item active">
             <?php else : ?>
                 <li class="nav-item">
@@ -69,8 +69,8 @@
             <span>Form Permintaan Barang</span></a>
     </li>
 
-       <!-- Menu Penerimaan Barang -->
-       <li class="nav-item">
+    <!-- Menu Penerimaan Barang -->
+    <li class="nav-item">
         <a class="nav-link" href="<?= base_url('inventory/receive'); ?>">
             <i class="fas fa-truck-loading"></i>
             <span>Penerimaan Barang</span>
@@ -84,9 +84,15 @@
             <span>Produk Barang (Obat)</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('inventory_out'); ?>">
+            <i class="fas fa-boxes"></i>
+            <span>Inventory Keluar</span></a>
+    </li>
+
     <!-- Laporan Kartu Stock -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('reports/stock-report'); ?>">
+        <a class="nav-link" href="<?= base_url('inventory/stock_report'); ?>">
             <i class="fas fa-chart-line"></i>
             <span>Laporan Kartu Stock</span></a>
     </li>

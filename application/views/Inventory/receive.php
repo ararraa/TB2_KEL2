@@ -9,108 +9,108 @@
                     <?= validation_errors(); ?>
                 </div>
             <?php endif; ?>
-            <?= $this->session->flashdata('message'); ?>
+            <?php if ($this->session->flashdata('message')) : ?>
+                <div class="alert alert-success" role="alert">
+                    <?= $this->session->flashdata('message'); ?>
+                </div>
+            <?php endif; ?>
             
             <!-- Form Penerimaan -->
-            <form action="<?= base_url('inventory/stock_report'); ?>" method="post">
+            <form action="<?= base_url('inventory/receive'); ?>" method="post">
                 <div class="form-group">
                     <label for="no_invoice">No Invoice</label>
                     <input type="text" class="form-control" id="no_invoice" name="no_invoice" value="<?= set_value('no_invoice'); ?>">
+                    <?= form_error('no_invoice', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="no_request_product">No Request Product</label>
-                    <input type="text" class="form-control" id="no_request_product" name="no_request_product" value="<?= set_value('no_request_product'); ?>">
+                    <label for="id_request">ID Request</label>
+                    <select class="form-control" id="id_request" name="id_request">
+                        <option value="">Pilih ID Request</option>
+                        <?php if (!empty($requests)): ?>
+                            <?php foreach ($requests as $request): ?>
+                                <option value="<?= $request['ID_Request']; ?>" <?= set_select('id_request', $request['ID_Request']); ?>>
+                                    <?= $request['ID_Request']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                    <?= form_error('id_request', '<small class="text-danger">', '</small>'); ?>
                 </div>
+                <button type="button" class="btn btn-info" onclick="fetchRequestDetails()">Pilih</button>
                 <div class="form-group">
                     <label for="detail_pengirim">Detail Pengirim</label>
                     <input type="text" class="form-control" id="detail_pengirim" name="detail_pengirim" value="<?= set_value('detail_pengirim'); ?>">
+                    <?= form_error('detail_pengirim', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="tanggal">Tanggal</label>
                     <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?= set_value('tanggal'); ?>">
+                    <?= form_error('tanggal', '<small class="text-danger">', '</small>'); ?>
                 </div>
 
                 <!-- Tabel Penerimaan -->
                 <table class="table table-hover mt-4" id="receiveTable">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">ID Invoice Obat Detail</th>
-                            <th scope="col">Nama Item</th>
+                            <th scope="col">ID Request Detail</th>
+                            <th scope="col">No Item</th>
+                            <th scope="col">Nama Barang</th>
                             <th scope="col">Qty</th>
-                            <th scope="col">Harga</th>
-                            <th scope="col">Total</th>
-                            <th scope="col"><button type="button" class="btn btn-primary" id="addRow">+</button></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-                            <td><input type="text" name="nama_item[]" class="form-control"></td>
-                            <td><input type="number" name="qty[]" class="form-control qty"></td>
-                            <td><input type="number" name="harga[]" class="form-control harga"></td>
-                            <td><input type="number" name="total[]" class="form-control total" readonly></td>
-                            <td><button type="button" class="btn btn-danger removeRow">-</button></td>
-                        </tr>
+                    <tbody id="receiveTableBody">
+                        <!-- Rows will be inserted here dynamically -->
                     </tbody>
                 </table>
+
+                <!-- Input hidden untuk menyimpan data tabel -->
+                <input type="hidden" id="tableDataInput" name="tableData">
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </div>
-<!-- /.container-fluid -->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        let receiveTable = document.getElementById('receiveTable').getElementsByTagName('tbody')[0];
-        document.getElementById('addRow').addEventListener('click', function () {
-            let rowCount = receiveTable.rows.length;
-            let row = receiveTable.insertRow(rowCount);
-            row.innerHTML = `
-                <th scope="row">${rowCount + 1}</th>
-                <td><input type="text" name="id_invoice_obat_detail[]" class="form-control"></td>
-                <td><input type="text" name="nama_item[]" class="form-control"></td>
-                <td><input type="number" name="qty[]" class="form-control qty"></td>
-                <td><input type="number" name="harga[]" class="form-control harga"></td>
-                <td><input type="number" name="total[]" class="form-control total" readonly></td>
-                <td><button type="button" class="btn btn-danger removeRow">-</button></td>
-            `;
+    // Function to handle fetching request details
+    function fetchRequestDetails() {
+        var id_request = $('#id_request').val();
+        if (id_request) {
+            $.ajax({
+                url: '<?= base_url("inventory/get_request_details/"); ?>' + id_request,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tableBody = $('#receiveTableBody');
+                    tableBody.empty();
+                    $.each(data, function(index, detail) {
+                        tableBody.append('<tr><td>' + detail.ID_Request_Detail + '</td><td>' + detail.No_Item + '</td><td>' + detail.Nama_Barang + '</td><td>' + detail.Qty + '</td></tr>');
+                    });
+                }
+            });
+        } else {
+            $('#receiveTableBody').empty();
+        }
+    }
 
-            row.querySelector('.removeRow').addEventListener('click', function () {
-                this.closest('tr').remove();
-                updateRowNumbers();
+    // Function to handle form submission
+    $(document).ready(function() {
+        $('form').submit(function() {
+            // Ambil nilai dari tabel penerimaan
+            var tableData = [];
+            $('#receiveTableBody tr').each(function(row, tr) {
+                var rowData = {
+                    'id_request_detail': $(tr).find('td:eq(0)').text(), // Kolom ke-1 (indeks 0) berisi ID Request Detail
+                    'no_item': $(tr).find('td:eq(1)').text(), // Kolom ke-2 (indeks 1) berisi No Item
+                    'nama_barang': $(tr).find('td:eq(2)').text(), // Kolom ke-3 (indeks 2) berisi Nama Barang
+                    'qty': $(tr).find('td:eq(3)').text() // Kolom ke-4 (indeks 3) berisi Qty
+                };
+                tableData.push(rowData);
             });
 
-            row.querySelector('.qty').addEventListener('input', calculateTotal);
-            row.querySelector('.harga').addEventListener('input', calculateTotal);
+            // Masukkan nilai ke input hidden sebelum submit
+            $('#tableDataInput').val(JSON.stringify(tableData));
         });
-
-        function updateRowNumbers() {
-            let rows = receiveTable.getElementsByTagName('tr');
-            for (let i = 0; i < rows.length; i++) {
-                rows[i].getElementsByTagName('th')[0].innerText = i + 1;
-            }
-        }
-
-        function calculateTotal() {
-            let row = this.closest('tr');
-            let qty = row.querySelector('.qty').value;
-            let harga = row.querySelector('.harga').value;
-            row.querySelector('.total').value = qty * harga;
-        }
-
-        let existingRows = receiveTable.getElementsByTagName('tr');
-        for (let row of existingRows) {
-            row.querySelector('.removeRow').addEventListener('click', function () {
-                this.closest('tr').remove();
-                updateRowNumbers();
-            });
-
-            row.querySelector('.qty').addEventListener('input', calculateTotal);
-            row.querySelector('.harga').addEventListener('input', calculateTotal);
-        }
     });
 </script>

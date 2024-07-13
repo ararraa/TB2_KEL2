@@ -1,50 +1,83 @@
-<!-- Begin Page Content -->
 <div class="container-fluid">
-    <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
+
+    <div class="row mb-3">
+        <div class="col-lg-4">
+            <form method="GET" action="">
+                <div class="form-group">
+                    <label for="filterProduct">Filter Nama Produk</label>
+                    <select class="form-control" id="filterProduct" name="filterProduct">
+                        <option value="">Semua Produk</option>
+                        <?php foreach ($requested_products as $product) : ?>
+                            <option value="<?= $product['Nama_Barang']; ?>" <?= isset($_GET['filterProduct']) && $_GET['filterProduct'] == $product['Nama_Barang'] ? 'selected' : ''; ?>>
+                                <?= $product['Nama_Barang']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">No Laporan Persediaan Stock</th>
-                        <th scope="col">No Item</th>
-                        <th scope="col">No Invoice</th>
-                        <th scope="col">No Penjualan</th>
-                        <th scope="col">Detail Pengirim/Penerima</th>
-                        <th scope="col">Barang Masuk</th>
-                        <th scope="col">Barang Keluar</th>
-                        <th scope="col">Stock Akhir</th>
-                        <th scope="col">Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($stock_reports)) : ?>
-                        <?php $i = 1; ?>
-                        <?php foreach ($stock_reports as $report) : ?>
-                            <tr>
-                                <th scope="row"><?= $i; ?></th>
-                                <td><?= $report['no_laporan_persediaan_stock']; ?></td>
-                                <td><?= $report['no_item']; ?></td>
-                                <td><?= $report['no_invoice']; ?></td>
-                                <td><?= $report['no_penjualan']; ?></td>
-                                <td><?= $report['detail_pengirim_penerima']; ?></td>
-                                <td><?= $report['barang_masuk']; ?></td>
-                                <td><?= $report['barang_keluar']; ?></td>
-                                <td><?= $report['stock_akhir']; ?></td>
-                                <td><?= $report['created_at']; ?></td>
-                            </tr>
-                            <?php $i++; ?>
-                        <?php endforeach; ?>
-                    <?php else : ?>
+            <div class="table-responsive mt-4">
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td colspan="10" class="text-center">Data tidak ditemukan</td>
+                            <th scope="col">No Invoice</th>
+                            <th scope="col">Nama Produk</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Status</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $filtered_reports = [];
+                        $total_qty = 0;
+                        if (!empty($stock_reports)) {
+                            if (isset($_GET['filterProduct']) && $_GET['filterProduct'] !== '') {
+                                foreach ($stock_reports as $report) {
+                                    if ($report['Nama_Barang'] === $_GET['filterProduct']) {
+                                        $filtered_reports[] = $report;
+                                        $total_qty += isset($report['Qty']) ? $report['Qty'] : 0;
+                                    }
+                                }
+                            } else {
+                                $filtered_reports = $stock_reports;
+                                foreach ($stock_reports as $report) {
+                                    $total_qty += isset($report['Qty']) ? $report['Qty'] : 0;
+                                }
+                            }
+                        }
+                        ?>
+                        <?php if (!empty($filtered_reports)) : ?>
+                            <?php foreach ($filtered_reports as $report) : ?>
+                                <tr>
+                                    <td><?= isset($report['no_invoice']) ? $report['no_invoice'] : ''; ?></td>
+                                    <td><?= isset($report['Nama_Barang']) ? $report['Nama_Barang'] : ''; ?></td>
+                                    <td><?= isset($report['Qty']) ? $report['Qty'] : ''; ?></td>
+                                    <td>
+                                        <?php if (isset($report['status']) && $report['status'] == 'in') : ?>
+                                            <button class="btn btn-success">in</button>
+                                        <?php elseif (isset($report['status']) && $report['status'] == 'out') : ?>
+                                            <button class="btn btn-danger">out</button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <tr>
+                                <td colspan="4" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+                <div class="mt-3">
+                    <h5>Total Quantity: <?= $total_qty; ?></h5>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!-- /.container-fluid -->
