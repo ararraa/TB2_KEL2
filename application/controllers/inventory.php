@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -36,18 +37,18 @@ class Inventory extends CI_Controller {
             );
     
             // Insert receive data
-            $receive_id = $this->Receive_model->insertReceive($form_data);
+            $this->Receive_model->insertReceive($form_data);
     
             // Get request details
             $id_request = $this->input->post('id_request');
             $request_details = $this->Request_model->get_request_details($id_request);
-
+    
             // Prepare data for stock report and save to database
             foreach ($request_details as $detail) {
                 $stock_data = array(
                     'no_invoice' => $form_data['no_invoice'],
-                    'nama_barang' => $detail['Nama_Barang'],
-                    'qty' => $detail['Qty'],
+                    'nama_barang' => $detail['Nama_Barang'], // Adjust according to your column names
+                    'qty' => $detail['Qty'], // Ensure 'Qty' is a key in request details
                     'status' => 'in'
                 );
                 $this->Stock_report_model->save_stock_report($stock_data);
@@ -55,10 +56,10 @@ class Inventory extends CI_Controller {
     
             // Set flash message
             $this->session->set_flashdata('message', 'Data penerimaan berhasil disimpan.');
-            redirect('inventory/stock_report');
+            redirect('inventory/stockReport'); // Ensure this method exists
         }
     }
-
+    
     public function stockReport() {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['title'] = 'Laporan Kartu Stock';

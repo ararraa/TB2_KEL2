@@ -1,3 +1,5 @@
+
+
 <?php
 class Inventory_Out_Model extends CI_Model {
 

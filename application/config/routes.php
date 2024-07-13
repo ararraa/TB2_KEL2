@@ -49,6 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+
 $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
@@ -59,11 +61,13 @@ $route['product/store'] = 'product/store';
 $route['product/edit/(:num)'] = 'product/edit/$1';
 $route['product/update/(:num)'] = 'product/update/$1';
 $route['product/delete/(:num)'] = 'product/delete/$1';
+
 $route['inventory/request-form'] = 'admin/requestForm';
-$route['inventory/receive'] = 'inventory/receive'; // Ubah dari 'admin/receive' ke 'inventory/receive'
-$route['inventory/stock_report'] = 'inventory/stockReport'; // Ubah dari 'admin/stockReport' ke 'inventory/stockReport'
+$route['inventory/receive'] = 'inventory/receive';
+$route['inventory/stock_report'] = 'inventory/stockReport';
 $route['admin/detail/(:num)'] = 'admin/detail/$1';
 $route['admin/continue/(:num)'] = 'admin/continue/$1';
+
 $route['inventory_out'] = 'inventory_out/index';
 $route['inventory_out/create'] = 'inventory_out/create';
 $route['inventory_out/store'] = 'inventory_out/store';
@@ -71,9 +75,10 @@ $route['inventory_out/edit/(:num)'] = 'inventory_out/edit/$1';
 $route['inventory_out/update/(:num)'] = 'inventory_out/update/$1';
 $route['inventory_out/delete/(:num)'] = 'inventory_out/delete/$1';
 
+$route['user/request-form'] = 'user/requestForm';
+$route['admin/continueRequest/(:any)'] = 'admin/continueRequest/$1';
 
 
-// Hapus route yang duplikat, jika ada
 
 
 

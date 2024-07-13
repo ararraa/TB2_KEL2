@@ -1,3 +1,5 @@
+
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -15,8 +17,9 @@ class Inventory_model extends CI_Model {
         $data['title'] = 'Laporan Kartu Stock';
         $data['produk'] = $this->Produk_model->get_all_produk(); // Gantilah dengan pemanggilan model dan metode yang sesuai
         $nama_barang = $this->input->post('nama_barang');
+
         $this->load->model('Stock_report_model');
-        $data['stock_reports'] = $this->Stock_report_model->get_stock_reports($nama_barang);
+        $data['stock_reports'] = $this->Stock_report_model->get_stock_reports($Nama_Barang);
         $this->load->model('Produk_model');
         $data['produk'] = $this->Produk_model->get_all_produk();
     

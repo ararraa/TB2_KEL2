@@ -1,3 +1,4 @@
+
 <!-- inventory_out/create.php -->
 <!DOCTYPE html>
 <html lang="en">
