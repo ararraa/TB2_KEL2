@@ -1,4 +1,3 @@
-
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -42,7 +41,6 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-
     public function detail($id_request)
     {
         // Load necessary data from models, e.g., Request_model
@@ -57,11 +55,12 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-    public function continue($id_request)
+    public function continueRequest($id_request)
     {
         // Implement continuation logic, e.g., redirect to another form or action
         redirect('some/other/action'); // Replace with your logic
     } 
+
     public function get_request_details($id_request)
     {
         $data['request_details'] = $this->Request_model->get_request_details($id_request); // Fetch request details by ID_Request
@@ -78,8 +77,7 @@ class Admin extends CI_Controller
         if ($filter_item) {
             $data['stock_reports'] = $this->Stock_report_model->get_stock_reports($filter_item);
         }
-        $this->load_view('inventory/stock_report', $data);
+        $this->load->view('inventory/stock_report', $data);
     }
 }
 ?>
-s

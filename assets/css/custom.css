@@ -1,0 +1,17 @@
+.custom-input {
+    width: 300px;
+    border-radius: 20px; 
+    padding: 8px 15px;
+    font-size: 14px;
+    margin: 0 auto;          
+    display: block;
+}
+.custom-btn {
+    padding: 10px 20px;  
+    font-size: 18px;     
+    width: 150px;         
+}
+
+.bg-navy {
+    background-color: #001f3f !important; 
+}

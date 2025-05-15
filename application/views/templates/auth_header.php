@@ -21,7 +21,10 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="assets/css/custom.css" rel="stylesheet">
+
 
 </head>
 
-<body class="bg-gradient-primary"></body>
+<body style="background-color: #0a0f3c;">
+ </body>

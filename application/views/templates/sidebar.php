@@ -5,10 +5,9 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url(); ?>">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-code"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Logistik Apotek</div>
+         <div class="text-center">
+                <img src="<?= base_url('assets/img/logo.jpg'); ?>" alt="Logo" style="width: 140px; height: auto;">
+            </div>
     </a>
 
     <!-- Divider -->
@@ -26,96 +25,7 @@
     $menu = $this->db->query($queryMenu)->result_array();
     ?>
 
-    <!-- LOOPING MENU -->
-    <?php foreach ($menu as $m) : ?>
-        <div class="sidebar-heading">
-            <?= $m['menu']; ?>
-        </div>
-
-        <!-- SIAPKAN SUB-MENU SESUAI MENU -->
-        <?php
-        $menuId = $m['id'];
-        $querySubMenu = "SELECT *
-                           FROM user_sub_menu JOIN user_menu
-                             ON user_sub_menu.menu_id = user_menu.id
-                          WHERE user_sub_menu.menu_id = $menuId
-                            AND user_sub_menu.is_active = 1
-                        ";
-        $subMenu = $this->db->query($querySubMenu)->result_array();
-        ?>
-
-        <?php foreach ($subMenu as $sm) : ?>
-            <?php if (isset($title) && $title == $sm['title']) : ?>
-                <li class="nav-item active">
-            <?php else : ?>
-                <li class="nav-item">
-            <?php endif; ?>
-                <a class="nav-link" href="<?= base_url($sm['url']); ?>">
-                    <i class="<?= $sm['icon']; ?>"></i>
-                    <span><?= $sm['title']; ?></span></a>
-            </li>
-        <?php endforeach; ?>
-
-        <hr class="sidebar-divider mt-3">
-
-    <?php endforeach; ?>
-
-    <!-- Inventory Management -->
-    <div class="sidebar-heading">
-        Inventory Management
-    </div>
-
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('inventory/request-form'); ?>">
-            <i class="fas fa-file-alt"></i>
-            <span>Form Permintaan Barang</span></a>
-    </li>
-
-    <!-- Menu Penerimaan Barang -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('inventory/receive'); ?>">
-            <i class="fas fa-truck-loading"></i>
-            <span>Penerimaan Barang</span>
-        </a>
-    </li>
-
-    <!-- Produk Barang (Obat) -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('produk'); ?>">
-            <i class="fas fa-pills"></i>
-            <span>Produk Barang (Obat)</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('inventory_out'); ?>">
-            <i class="fas fa-boxes"></i>
-            <span>Inventory Keluar</span></a>
-    </li>
-
-    <!-- Laporan Kartu Stock -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('inventory/stock_report'); ?>">
-            <i class="fas fa-chart-line"></i>
-            <span>Laporan Kartu Stock</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider mt-3">
-
-    <!-- Logout -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('auth/logout'); ?>">
-            <i class="fas fa-fw fa-sign-out-alt"></i>
-            <span>Logout</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
+    
 
 </ul>
 <!-- End of Sidebar -->

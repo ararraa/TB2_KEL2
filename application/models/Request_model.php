@@ -13,7 +13,7 @@ class Request_model extends CI_Model
 
     public function get_all_requested_products() {
         $this->db->select('DISTINCT(Nama_Barang)');
-        $this->db->from('request_details'); // assuming the table name is 'request_details'
+        $this->db->from('request_details');
         $query = $this->db->get();
         return $query->result_array();
     }
